@@ -57,7 +57,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'happypack/loader?id=happybabel',
+        loader: 'babel-loader',
         include: [
           resolve('src'),
           resolve('test'),
@@ -101,18 +101,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new HappyPack({
-      id: 'happyvue',
-      loaders: ['vue-loader'],
-      threadPool: happyThreadPool,
-      verbose: true
-    }),
-    new HappyPack({
-      id: 'happybabel',
-      loaders: ['babel-loader?cacheDirectory=true'],
-      threadPool: happyThreadPool,
-      verbose: true
-    }),
     new VueLoaderPlugin()],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue

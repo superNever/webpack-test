@@ -11,7 +11,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const CrudeTimingPlugin = require('./timing-plugin')
+
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -44,8 +44,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     // extract css into its own file
     new MiniCssExtractPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash:8].css'),
-      chunkFilename: utils.assetsPath('css/[name].[contenthash:8].css')
+      filename: utils.assetsPath('css/[name].css'),
+      chunkFilename: utils.assetsPath('css/[name].css')
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
@@ -55,7 +55,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true,
       favicon: resolve('favicon.ico'),
-      title: 'vue-element-admin',
+      title: 'webpack-test',
       templateParameters: {
         BASE_URL: config.build.assetsPublicPath + config.build.assetsSubDirectory,
       },
@@ -93,57 +93,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     // keep module.id stable when vender modules does not change
     new webpack.HashedModuleIdsPlugin(),
-    // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: config.build.assetsSubDirectory,
-        ignore: ['.*']
-      }
-    ])
   ],
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        libs: {
-          name: 'chunk-libs',
-          test: /[\\/]node_modules[\\/]/,
-          priority: 10,
-          chunks: 'initial' // 只打包初始时依赖的第三方
-        },
-        elementUI: {
-          name: 'chunk-elementUI', // 单独将 elementUI 拆包
-          priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
-          test: /[\\/]node_modules[\\/]element-ui[\\/]/
-        },
-        commons: {
-          name: 'chunk-commons',
-          test: resolve('src/components'), // 可自定义拓展你的规则
-          minChunks: 3, // 最小公用次数
-          priority: 5,
-          reuseExistingChunk: true
-        }
-      }
-    },
-    runtimeChunk: 'single',
-    minimizer: [
-      new CrudeTimingPlugin(),
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          mangle: {
-            safari10: true
-          }
-        },
-        sourceMap: config.build.productionSourceMap,
-        cache: true,
-        parallel: true
-      }),
-      // Compress extracted CSS. We are using this plugin so that possible
-      // duplicated CSS from different components can be deduped.
-      new OptimizeCSSAssetsPlugin()
-    ]
-  }
 })
 
 if (config.build.productionGzip) {
