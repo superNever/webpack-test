@@ -84,6 +84,6 @@ module.exports = {
     bundleAnalyzerReport: process.env.npm_config_report || false,
 
     // `npm run build:prod --generate_report`
-    generateAnalyzerReport: process.env.npm_config_generate_report || false
+    generateAnalyzerReport: true
   }
 }
