@@ -21,8 +21,9 @@ const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
-  mode: 'none',
+  mode: 'development',
   module: {
+    noParse: /node_modules\/(elment-ui\.js)/,
     rules: utils.styleLoaders({
       sourceMap: config.dev.cssSourceMap,
       usePostCSS: true

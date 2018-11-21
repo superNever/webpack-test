@@ -45,14 +45,18 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        include: [
+          resolve('src'),
+          resolve('test'),
+        ],
         options: vueLoaderConfig
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [
-        //   resolve('src'),
-        //   resolve('test'),
+          resolve('src'),
+          resolve('test'),
           resolve('node_modules/webpack-dev-server/client')
         ],
         // exclude: /node_modules/
