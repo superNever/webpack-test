@@ -82,6 +82,7 @@
     "eslint-plugin-vue": "4.7.1",
     "file-loader": "1.1.11",
     "friendly-errors-webpack-plugin": "1.7.0",
+    "happypack": "^5.0.0",
     "hash-sum": "1.0.2",
     "html-webpack-plugin": "4.0.0-alpha",
     "husky": "0.14.3",

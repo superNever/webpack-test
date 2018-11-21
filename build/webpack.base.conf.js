@@ -1,9 +1,13 @@
 'use strict'
 const path = require('path')
 const utils = require('./utils')
+const os = require('os')
 const config = require('../config')
 const { VueLoaderPlugin } = require('vue-loader')
 const vueLoaderConfig = require('./vue-loader.conf')
+
+const HappyPack = require('happypack');
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -53,13 +57,13 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        loader: 'happypack/loader?id=happybabel',
         include: [
           resolve('src'),
           resolve('test'),
           resolve('node_modules/webpack-dev-server/client')
         ],
-        // exclude: /node_modules/
+        exclude: /node_modules/
       },
       {
         test: /\.svg$/,
@@ -96,7 +100,20 @@ module.exports = {
       }
     ]
   },
-  plugins: [new VueLoaderPlugin()],
+  plugins: [
+    new HappyPack({
+      id: 'happyvue',
+      loaders: ['vue-loader'],
+      threadPool: happyThreadPool,
+      verbose: true
+    }),
+    new HappyPack({
+      id: 'happybabel',
+      loaders: ['babel-loader?cacheDirectory=true'],
+      threadPool: happyThreadPool,
+      verbose: true
+    }),
+    new VueLoaderPlugin()],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).
