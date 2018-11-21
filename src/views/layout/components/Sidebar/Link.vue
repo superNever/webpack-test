@@ -22,6 +22,7 @@ export default {
     },
     linkProps(url) {
       if (this.isExternalLink(url)) {
+        console.log('sdsdsd')
         return {
           is: 'a',
           href: url,
