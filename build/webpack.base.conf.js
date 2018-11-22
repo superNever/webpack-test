@@ -37,6 +37,9 @@ module.exports = {
         ? config.build.assetsPublicPath
         : config.dev.assetsPublicPath
   },
+  externals: {
+    vue: 'Vue'
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
